@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matemática Divertida - Registro</title>
+    <!-- Estilos de Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Íconos de Bootstrap Icons (reemplazan a los emojis) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f4f6fb;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            color: #2b3674;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* --- PANTALLA DE REGISTRO / AUTH --- */
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #0b1437 0%, #111c44 100%);
+        }
+
+        .auth-card {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 40px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #a3aed0;
+            margin: 20px 0;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .divider::before { margin-right: .5em; }
+        .divider::after { margin-left: .5em; }
+
+        .avatar-preview {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #4318ff;
+            background-color: #e9e7fd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 38px;
+            margin: 0 auto 10px auto;
+            cursor: pointer;
+            overflow: hidden;
+            transition: transform 0.2s ease;
+        }
+
+        .avatar-preview:hover {
+            transform: scale(1.05);
+        }
+
+        /* --- ESTILOS PLATAFORMA --- */
+        .top-bar {
+            background-color: #0b1437;
+            color: #ffffff;
+            padding: 12px 24px;
+        }
+
+        .sidebar {
+            background-color: #ffffff;
+            min-height: calc(100vh - 60px);
+            border-right: 1px solid #e9ecef;
+            padding: 20px 15px;
+        }
+
+        .nav-menu-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            padding: 12px 16px;
+            border: none;
+            background: transparent;
+            border-radius: 12px;
+            color: #a3aed0;
+            font-weight: 600;
+            text-decoration: none;
+            margin-bottom: 5px;
+            text-align: left;
+            transition: all 0.2s;
+        }
+
+        .nav-menu-btn:hover {
+            background-color: #f4f7fe;
+            color: #4318ff;
+        }
+
+        .nav-menu-btn.active {
+            background-color: #e9e7fd;
+            color: #4318ff;
+        }
+
+        .sidebar-card {
+            background: linear-gradient(135deg, #e9e7fd 0%, #f4f7fe 100%);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .dash-card {
+            background-color: #ffffff;
+            border-radius: 20px;
+            border: none;
+            box-shadow: 0px 18px 40px rgba(112, 144, 176, 0.07);
+            padding: 24px;
+        }
+
+        .stat-box {
+            background-color: #f4f7fe;
+            border-radius: 16px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .game-card {
+            background-color: #ffffff;
+            border-radius: 20px;
+            border: 1px solid #f0f3f8;
+            padding: 24px;
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
+        }
+
+        .icon-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px auto;
+            font-size: 32px;
+        }
+
+        .bg-icon-green { background-color: #e6f9f0; }
+        .bg-icon-blue { background-color: #e9f0ff; }
+        .bg-icon-purple { background-color: #f2e9ff; }
+        .bg-icon-yellow { background-color: #fff8e6; }
+        .bg-icon-pink { background-color: #ffeef0; }
+        .bg-icon-cyan { background-color: #e6f7ff; }
+
+        .btn-action {
+            border-radius: 30px;
+            padding: 10px 24px;
+            font-weight: 700;
+            width: 100%;
+            border: none;
+        }
+
+        /* Ocultar flechas de inputs numéricos */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+            appearance: textfield;
+        }
+
+        .user-avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .avatar-btn {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .avatar-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .svg-container svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .icono-avatar-svg {
+            width: 55%;
+            height: 55%;
+            display: block;
+        }
+
+        /* --- SELECTOR DE DIFICULTAD --- */
+        .dificultad-wrapper {
+            position: relative;
+        }
+
+        .btn-dificultad-toggle {
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            background-color: transparent;
+            color: #ffffff;
+            font-weight: 700;
+            border-radius: 30px;
+            padding: 6px 16px;
+            font-size: 0.85rem;
+        }
+
+        .btn-dificultad-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .menu-dificultad {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            width: 190px;
+            background-color: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0px 20px 45px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            z-index: 60;
+            transform-origin: top right;
+            animation: popIn 0.18s ease;
+        }
+
+        .dificultad-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            border: none;
+            background-color: #f4f6fb;
+            color: #2b3674;
+            font-weight: 700;
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        .dificultad-item:nth-child(even) {
+            background-color: #ffffff;
+        }
+
+        .dificultad-item:hover {
+            background-color: #e9e7fd;
+        }
+
+        .dificultad-item.active {
+            outline: 3px solid #ff4d6d;
+            outline-offset: -3px;
+        }
+
+        .dificultad-icono {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .icono-facil {
+            background: radial-gradient(circle at 30% 30%, #7ff0e4, #12b8a8);
+        }
+
+        .icono-normal {
+            background: radial-gradient(circle at 30% 30%, #b4f08c, #4caf37);
+        }
+
+        .icono-dificil {
+            background: radial-gradient(circle at 30% 30%, #ffc978, #ff7a1a);
+        }
+
+        /* --- MODO OSCURO --- */
+        body.modo-oscuro {
+            background-color: #0b1437;
+            color: #e2e8f0;
+        }
+
+        body.modo-oscuro .sidebar,
+        body.modo-oscuro .dash-card,
+        body.modo-oscuro .game-card,
+        body.modo-oscuro .auth-card {
+            background-color: #111c44;
+            color: #e2e8f0;
+        }
+
+        body.modo-oscuro .sidebar {
+            border-right: 1px solid #1b2559;
+        }
+
+        body.modo-oscuro .game-card {
+            border: 1px solid #1b2559;
+        }
+
+        body.modo-oscuro .stat-box {
+            background-color: #1b2559;
+            color: #e2e8f0;
+        }
+
+        body.modo-oscuro .sidebar-card {
+            background: linear-gradient(135deg, #1b2559 0%, #111c44 100%);
+        }
+
+        body.modo-oscuro .nav-menu-btn {
+            color: #a3aed0;
+        }
+
+        body.modo-oscuro .nav-menu-btn:hover {
+            background-color: #1b2559;
+            color: #ffffff;
+        }
+
+        body.modo-oscuro .nav-menu-btn.active {
+            background-color: #4318ff;
+            color: #ffffff;
+        }
+
+        body.modo-oscuro .table {
+            color: #e2e8f0;
+        }
+
+        body.modo-oscuro .modal-content {
+            background-color: #111c44;
+            color: #e2e8f0;
+        }
+
+        body.modo-oscuro .text-muted {
+            color: #a3aed0 !important;
+        }
+
+        /* --- ANIMACIONES Y MEJORAS ESTÉTICAS --- */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Animación general para todos los botones */
+        button, .btn {
+            transition: transform 0.15s ease, box-shadow 0.2s ease, background-color 0.2s ease, filter 0.2s ease;
+        }
+
+        button:hover:not(:disabled), .btn:hover:not(:disabled) {
+            filter: brightness(1.05);
+        }
+
+        button:active:not(:disabled), .btn:active:not(:disabled) {
+            transform: scale(0.96);
+        }
+
+        .btn-action:hover {
+            transform: translateY(-3px);
+            box-shadow: 0px 10px 20px rgba(67, 24, 255, 0.15);
+        }
+
+        #btn-verificar:hover, #btn-siguiente:hover {
+            transform: translateY(-2px);
+            box-shadow: 0px 10px 20px rgba(67, 24, 255, 0.2);
+        }
+
+        #btn-pista:hover {
+            transform: translateY(-2px) rotate(-3deg);
+        }
+
+        .avatar-btn:hover {
+            transform: scale(1.12) rotate(3deg);
+        }
+
+        #btn-modo-oscuro:hover {
+            transform: rotate(20deg) scale(1.1);
+        }
+
+        .icon-circle {
+            transition: transform 0.3s ease;
+        }
+
+        .game-card:hover .icon-circle {
+            transform: scale(1.1) rotate(-6deg);
+        }
+
+        .stat-box {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0px 10px 20px rgba(112, 144, 176, 0.15);
+        }
+
+        .sidebar-card {
+            transition: transform 0.2s ease;
+        }
+
+        .sidebar-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .content-view:not(.hidden) {
+            animation: fadeInUp 0.4s ease;
+        }
+
+        #sec-juego .dash-card {
+            animation: popIn 0.35s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========================================== -->
+    <!-- 0. PANTALLA DE REGISTRO E INICIO DE SESIÓN -->
+    <!-- ========================================== -->
+    <div id="sec-auth" class="auth-container">
+        <div class="auth-card text-center">
+            <div class="mb-3 fs-1 text-primary"><i class="bi bi-rulers"></i></div>
+            <h3 class="fw-bold mb-1">¡Bienvenido!</h3>
+            <p class="text-muted small mb-4">Crea tu cuenta para guardar tu progreso en Matemática Divertida</p>
+
+            <!-- FORMULARIO MANUAL -->
+            <form id="form-registro" onsubmit="registrarUsuario(event)">
+                
+                <!-- Cargar Foto de Perfil desde la Galería -->
+                <div class="mb-3">
+                    <label for="input-foto" title="Haz clic para elegir foto de tu galería">
+                        <div class="avatar-preview" id="avatar-preview-box">
+                            <svg id="avatar-emoji" class="icono-avatar-svg" viewBox="0 0 24 24" fill="#4318ff" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="8" r="4"/>
+                                <path d="M4 22c0-4.418 3.582-8 8-8s8 3.582 8 8v1H4v-1z"/>
+                            </svg>
+                            <img id="avatar-img-preview" class="user-avatar-img hidden" alt="Foto Seleccionada">
+                        </div>
+                    </label>
+                    <small class="text-primary fw-bold d-block cursor-pointer" onclick="document.getElementById('input-foto').click()" style="cursor:pointer;">
+                        <i class="bi bi-image"></i> Elegir foto de la galería
+                    </small>
+                    <!-- Input HTML5 nativo para selector de archivos/galería de fotos -->
+                    <input type="file" id="input-foto" accept="image/png, image/jpeg, image/webp" class="hidden" onchange="previewFoto(event)">
+                </div>
+
+                <div class="text-start mb-3">
+                    <label class="form-label fw-bold small">Tu Nombre o Apodo:</label>
+                    <input type="text" id="input-reg-nombre" class="form-control form-control-lg rounded-3 fs-6" placeholder="Ej: Mateo Pérez" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 py-3 fw-bold rounded-3" style="background-color: #4318ff; border: none;">
+                    ¡Crear mi Cuenta y Jugar! <i class="bi bi-rocket-takeoff-fill"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- 1. BARRA SUPERIOR DE NAVEGACIÓN -->
+    <!-- ========================================== -->
+    <header id="top-bar-app" class="top-bar d-flex align-items-center justify-content-between hidden">
+        <div class="d-flex align-items-center gap-2" onclick="showTab('inicio')" style="cursor: pointer;">
+            <span class="fs-4"><i class="bi bi-rulers"></i></span>
+            <span class="fw-bold fs-5">Matemática <span style="color: #00d480;">Divertida</span></span>
+        </div>
+        
+        <div class="d-flex align-items-center gap-4">
+            <div class="d-flex align-items-center gap-2">
+                <span><i class="bi bi-fire"></i></span>
+                <span class="fw-bold text-warning" id="top-racha">0</span>
+                <small class="text-white-50">racha</small>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <span><i class="bi bi-award-fill"></i></span>
+                <span class="fw-bold text-warning" id="top-medallas">0</span>
+                <small class="text-white-50">medallas</small>
+            </div>
+
+            <!-- SELECTOR DE DIFICULTAD -->
+            <div class="dificultad-wrapper">
+                <button id="btn-dificultad-toggle" class="btn-dificultad-toggle" onclick="toggleMenuDificultad()">
+                    <i class="bi bi-sliders"></i> Dificultad
+                </button>
+                <div id="menu-dificultad" class="menu-dificultad hidden">
+                    <button class="dificultad-item" data-nivel="facil" onclick="setDificultad('facil')">
+                        <span class="dificultad-icono icono-facil"></span> Fácil
+                    </button>
+                    <button class="dificultad-item active" data-nivel="normal" onclick="setDificultad('normal')">
+                        <span class="dificultad-icono icono-normal"></span> Normal
+                    </button>
+                    <button class="dificultad-item" data-nivel="dificil" onclick="setDificultad('dificil')">
+                        <span class="dificultad-icono icono-dificil"></span> Difícil
+                    </button>
+                </div>
+            </div>
+
+            <!-- Botón Modo Oscuro / Claro -->
+            <button id="btn-modo-oscuro" class="btn btn-sm btn-outline-light rounded-circle d-flex align-items-center justify-content-center p-0" 
+                    style="width: 36px; height: 36px;" onclick="toggleModoOscuro()" title="Cambiar tema">
+                <span id="icono-modo-oscuro"><i class="bi bi-moon-stars-fill"></i></span>
+            </button>
+            
+            <!-- Botón Perfil con Foto Dinámica -->
+            <button class="rounded-circle bg-primary text-white border-0 p-0 d-flex align-items-center justify-content-center avatar-btn overflow-hidden" 
+                    style="width: 42px; height: 42px;" data-bs-toggle="modal" data-bs-target="#modalPerfil" title="Ver mi Perfil">
+                <svg id="top-avatar-emoji" class="icono-avatar-svg" viewBox="0 0 24 24" fill="#ffffff" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="8" r="4"/>
+                    <path d="M4 22c0-4.418 3.582-8 8-8s8 3.582 8 8v1H4v-1z"/>
+                </svg>
+                <img id="top-avatar-img" class="user-avatar-img hidden" alt="Perfil">
+            </button>
+        </div>
+    </header>
+
+    <!-- ========================================== -->
+    <!-- 2. VISTA PRINCIPAL (MENU / DASHBOARD) -->
+    <!-- ========================================== -->
+    <div id="sec-main" class="container-fluid p-0 hidden">
+        <div class="row g-0">
+            
+            <!-- BARRA LATERAL (SIDEBAR) -->
+            <aside class="col-md-3 col-lg-2 sidebar">
+                <nav>
+                    <button class="nav-menu-btn active" id="btn-tab-inicio" onclick="showTab('inicio')"><i class="bi bi-house-door-fill"></i> Inicio</button>
+                    <button class="nav-menu-btn" id="btn-tab-desafios" onclick="showTab('desafios')"><i class="bi bi-bullseye"></i> Desafíos</button>
+                    <button class="nav-menu-btn" id="btn-tab-practica" onclick="showTab('practica')"><i class="bi bi-pencil-square"></i> Práctica</button>
+                    <button class="nav-menu-btn" id="btn-tab-historial" onclick="showTab('historial')"><i class="bi bi-clock-history"></i> Historial</button>
+                    <button class="nav-menu-btn" id="btn-tab-configuracion" onclick="showTab('configuracion')"><i class="bi bi-gear-fill"></i> Configuración</button>
+                </nav>
+
+                <div class="sidebar-card">
+                    <div class="fs-1 mb-2"><i class="bi bi-trophy-fill" style="color:#4318ff;"></i></div>
+                    <h6 class="fw-bold text-primary mb-1">¡Sigue practicando diariamente!</h6>
+                    <button class="btn btn-primary btn-action btn-sm mt-3" style="background-color: #4318ff;" onclick="showTab('inicio')">Ver mi progreso</button>
+                </div>
+            </aside>
+
+            <!-- CONTENIDO PRINCIPAL -->
+            <main class="col-md-9 col-lg-10 p-4">
+                
+                <!-- PESTAÑA 1: INICIO -->
+                <div id="view-inicio" class="content-view">
+                    <div class="dash-card mb-4">
+                        <div class="row align-items-center g-4">
+                            <div class="col-lg-5">
+                                <h2 class="fw-bold mb-1">¡Hola, <span style="color: #4318ff;" id="lbl-nombre">Estudiante</span>! <i class="bi bi-emoji-smile-fill text-warning"></i></h2>
+                                <p class="text-muted mb-0">Selecciona un juego y pon a prueba tus conocimientos.</p>
+                            </div>
+                            
+                            <div class="col-lg-7">
+                                <div class="row g-3">
+                                    <div class="col-3">
+                                        <div class="stat-box">
+                                            <div class="fs-4 text-success"><i class="bi bi-trophy-fill"></i></div>
+                                            <div class="fs-3 fw-bold text-success" id="lbl-puntos">0</div>
+                                            <small class="text-muted fw-bold style-micro">PUNTOS</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="stat-box">
+                                            <div class="fs-4 text-primary"><i class="bi bi-star-fill"></i></div>
+                                            <div class="fs-4 fw-bold text-primary" id="lbl-nivel">Nivel 1</div>
+                                            <small class="text-muted fw-bold style-micro">RANGO</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="stat-box">
+                                            <div class="fs-4 text-danger"><i class="bi bi-fire"></i></div>
+                                            <div class="fs-3 fw-bold text-danger" id="lbl-racha">0</div>
+                                            <small class="text-muted fw-bold style-micro">RACHA</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="stat-box">
+                                            <div class="fs-4 text-warning"><i class="bi bi-award-fill"></i></div>
+                                            <div class="fs-3 fw-bold text-warning" id="lbl-medallas">0</div>
+                                            <small class="text-muted fw-bold style-micro">MEDALLAS</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- BARRA DE PROGRESO -->
+                        <div class="mt-4 pt-3 border-top">
+                            <div class="d-flex justify-content-between small fw-bold text-muted mb-2">
+                                <span>Progreso al siguiente nivel</span>
+                                <span id="lbl-progreso-txt">0 / 100 pts</span>
+                            </div>
+                            <div class="progress" style="height: 12px; border-radius: 10px;">
+                                <div id="bar-progreso" class="progress-bar bg-success" role="progressbar" style="width: 0%; border-radius: 10px;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- GRILLA DE JUEGOS -->
+                    <h4 class="fw-bold mb-4">Elige tu próximo desafío <i class="bi bi-stars text-warning"></i></h4>
+
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-6 col-xl-4">
+                            <div class="game-card h-100 d-flex flex-column">
+                                <div class="icon-circle bg-icon-green"><i class="bi bi-plus-circle-fill"></i></div>
+                                <h5 class="fw-bold mb-2">Operaciones Básicas</h5>
+                                <p class="text-muted small flex-grow-1">Aritmética rápida: sumas, restas, multiplicaciones y divisiones exactas.</p>
+                                <button class="btn btn-action text-success" style="background-color: #e6f9f0;" onclick="iniciarJuego('Operaciones Básicas')">¡Comenzar! <i class="bi bi-arrow-right-circle-fill"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-xl-4">
+                            <div class="game-card h-100 d-flex flex-column">
+                                <div class="icon-circle bg-icon-blue"><i class="bi bi-plus-slash-minus"></i></div>
+                                <h5 class="fw-bold mb-2">Números Enteros</h5>
+                                <p class="text-muted small flex-grow-1">Domina operaciones con números positivos y negativos.</p>
+                                <button class="btn btn-action text-primary" style="background-color: #e9f0ff;" onclick="iniciarJuego('Números Enteros')">¡Comenzar! <i class="bi bi-arrow-right-circle-fill"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-xl-4">
+                            <div class="game-card h-100 d-flex flex-column">
+                                <div class="icon-circle bg-icon-purple"><i class="bi bi-pie-chart-fill"></i></div>
+                                <h5 class="fw-bold mb-2">Fracciones Simples</h5>
+                                <p class="text-muted small flex-grow-1">Cálculo de partes y fracciones aplicadas a números enteros.</p>
+                                <button class="btn btn-action" style="background-color: #f2e9ff; color: #7025ea;" onclick="iniciarJuego('Fracciones Simples')">¡Comenzar! <i class="bi bi-arrow-right-circle-fill"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-xl-4">
+                            <div class="game-card h-100 d-flex flex-column">
+                                <div class="icon-circle bg-icon-yellow"><i class="bi bi-lightbulb-fill"></i></div>
+                                <h5 class="fw-bold mb-2">Problemas Matemáticos</h5>
+                                <p class="text-muted small flex-grow-1">Desafíos contextualizados en situaciones reales.</p>
+                                <button class="btn btn-action text-warning" style="background-color: #fff8e6;" onclick="iniciarJuego('Problemas Matemáticos')">¡Comenzar! <i class="bi bi-arrow-right-circle-fill"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-xl-4">
+                            <div class="game-card h-100 d-flex flex-column">
+                                <div class="icon-circle bg-icon-pink"><i class="bi bi-rulers"></i></div>
+                                <h5 class="fw-bold mb-2">Geometría Inicial</h5>
+                                <p class="text-muted small flex-grow-1">Perímetros, áreas de figuras con sus gráficos interactivos.</p>
+                                <button class="btn btn-action text-danger" style="background-color: #ffeef0;" onclick="iniciarJuego('Geometría Inicial')">¡Comenzar! <i class="bi bi-arrow-right-circle-fill"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-xl-4">
+                            <div class="game-card h-100 d-flex flex-column">
+                                <div class="icon-circle bg-icon-cyan"><i class="bi bi-shuffle"></i></div>
+                                <h5 class="fw-bold mb-2">Desafíos Mixtos</h5>
+                                <p class="text-muted small flex-grow-1">Mezcla aleatoria de todos los temas en un solo lugar.</p>
+                                <button class="btn btn-action text-info" style="background-color: #e6f7ff;" onclick="iniciarJuego('Desafíos Mixtos')">¡Comenzar! <i class="bi bi-arrow-right-circle-fill"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PESTAÑA 2: DESAFÍOS -->
+                <div id="view-desafios" class="content-view hidden">
+                    <h3 class="fw-bold mb-3"><i class="bi bi-bullseye"></i> Desafíos Especiales</h3>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="dash-card border-start border-4 border-primary">
+                                <h5 class="fw-bold"><i class="bi bi-fire text-danger"></i> Racha de 5 Seguidas</h5>
+                                <p class="text-muted small">Responde 5 preguntas seguidas sin equivocarte para ganar +50 pts extra.</p>
+                                <button class="btn btn-outline-primary fw-bold btn-sm" onclick="iniciarJuego('Desafíos Mixtos')">Iniciar Reto</button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="dash-card border-start border-4 border-warning">
+                                <h5 class="fw-bold"><i class="bi bi-rulers text-warning"></i> Experto en Geometría</h5>
+                                <p class="text-muted small">Resuelve correctamente ejercicios con figuras geométricas ilustradas.</p>
+                                <button class="btn btn-outline-warning text-dark fw-bold btn-sm" onclick="iniciarJuego('Geometría Inicial')">Iniciar Reto</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PESTAÑA 3: PRÁCTICA -->
+                <div id="view-practica" class="content-view hidden">
+                    <h3 class="fw-bold mb-3"><i class="bi bi-pencil-square"></i> Modo Práctica Libre</h3>
+                    <div class="dash-card">
+                        <p class="text-muted">Elige un tema específico para practicar sin límites de tiempo:</p>
+                        <div class="d-flex flex-wrap gap-2">
+                            <button class="btn btn-outline-success fw-bold" onclick="iniciarJuego('Operaciones Básicas')"><i class="bi bi-plus-circle-fill"></i> Operaciones Básicas</button>
+                            <button class="btn btn-outline-primary fw-bold" onclick="iniciarJuego('Números Enteros')"><i class="bi bi-plus-slash-minus"></i> Enteros</button>
+                            <button class="btn btn-outline-purple fw-bold" style="color:#7025ea; border-color:#7025ea;" onclick="iniciarJuego('Fracciones Simples')"><i class="bi bi-pie-chart-fill"></i> Fracciones</button>
+                            <button class="btn btn-outline-warning text-dark fw-bold" onclick="iniciarJuego('Problemas Matemáticos')"><i class="bi bi-lightbulb-fill"></i> Problemas</button>
+                            <button class="btn btn-outline-danger fw-bold" onclick="iniciarJuego('Geometría Inicial')"><i class="bi bi-rulers"></i> Geometría</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PESTAÑA 5: HISTORIAL -->
+                <div id="view-historial" class="content-view hidden">
+                    <h3 class="fw-bold mb-3"><i class="bi bi-clock-history"></i> Historial de Ejercicios</h3>
+                    <div class="dash-card">
+                        <table class="table align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Tema</th>
+                                    <th>Ejercicio</th>
+                                    <th>Tu Respuesta</th>
+                                    <th>Resultado</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla-historial">
+                                <tr>
+                                    <td colspan="4" class="text-muted text-center py-3">Aún no has resuelto ningún ejercicio en esta sesión.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- PESTAÑA 6: CONFIGURACIÓN -->
+                <div id="view-configuracion" class="content-view hidden">
+                    <h3 class="fw-bold mb-3"><i class="bi bi-gear-fill"></i> Configuración del Perfil</h3>
+                    <div class="dash-card col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Nombre del Estudiante:</label>
+                            <input type="text" id="input-config-nombre" class="form-control" value="">
+                        </div>
+                        <button class="btn btn-primary fw-bold mb-3" onclick="guardarConfiguracion()">Guardar Cambios</button>
+                        <hr>
+                        <button class="btn btn-outline-danger btn-sm fw-bold" onclick="cerrarSesion()"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</button>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 3. PANTALLA DE JUEGO EN VIVO -->
+    <!-- ========================================== -->
+    <div id="sec-juego" class="container py-5 hidden">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="dash-card p-4">
+                    <button class="btn btn-link text-decoration-none text-muted mb-3 p-0" onclick="volverAlInicio()"><i class="bi bi-arrow-left"></i> Volver al menú</button>
+                    
+                    <h3 class="fw-bold text-primary mb-1" id="juego-titulo">Modo de Juego</h3>
+                    <p class="text-muted small mb-3">Resuelve el ejercicio planteado a continuación:</p>
+
+                    <!-- FIGURA GEOMÉTRICA -->
+                    <div id="juego-figura" class="svg-container text-center mb-3 hidden"></div>
+
+                    <!-- Enunciado/Pregunta -->
+                    <div class="stat-box mb-4 py-3">
+                        <h4 class="fw-bold m-0" id="juego-pregunta">...</h4>
+                    </div>
+
+                    <!-- Input para Respuesta Nativa -->
+                    <div class="mb-4 text-center">
+                        <input type="number" id="juego-respuesta" class="form-control form-control-lg text-center fs-2 fw-bold" placeholder="Tu respuesta numérica..." inputmode="numeric" autocomplete="off">
+                    </div>
+
+                    <!-- Mensajes y Pistas -->
+                    <div id="juego-pista-box" class="alert alert-warning hidden text-center mb-3" role="alert">
+                        <i class="bi bi-lightbulb-fill"></i> <strong>Pista:</strong> <span id="juego-pista-texto"></span>
+                    </div>
+
+                    <div id="juego-feedback" class="alert hidden text-center fw-bold mb-3"></div>
+
+                    <!-- Acciones -->
+                    <div class="d-flex gap-2">
+                        <button id="btn-pista" class="btn btn-outline-warning fw-bold" onclick="usarPista()"><i class="bi bi-lightbulb-fill"></i> Pista</button>
+                        <button id="btn-verificar" class="btn btn-primary flex-grow-1 fw-bold py-2" onclick="checkAnswer()">Verificar (Enter)</button>
+                        <button id="btn-siguiente" class="btn btn-success flex-grow-1 hidden fw-bold py-2" onclick="nextQuestion()">Siguiente <i class="bi bi-arrow-right"></i> (Enter)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 4. MODAL PERFIL -->
+    <!-- ========================================== -->
+    <div class="modal fade" id="modalPerfil" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-person-circle"></i> Mi Perfil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <div class="mb-3 d-flex justify-content-center">
+                        <div class="avatar-preview m-0" style="width: 80px; height: 80px;">
+                            <svg id="modal-avatar-emoji" class="icono-avatar-svg" viewBox="0 0 24 24" fill="#4318ff" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="8" r="4"/>
+                                <path d="M4 22c0-4.418 3.582-8 8-8s8 3.582 8 8v1H4v-1z"/>
+                            </svg>
+                            <img id="modal-avatar-img" class="user-avatar-img hidden" alt="Perfil">
+                        </div>
+                    </div>
+                    <h4 class="fw-bold" id="modal-nombre">Estudiante</h4>
+                    <p class="text-muted small">Estudiante Estrella</p>
+                    <hr>
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <div class="p-2 bg-light rounded-3">
+                                <small class="text-muted d-block fw-bold">PUNTOS</small>
+                                <span class="fs-4 fw-bold text-success" id="modal-puntos">0</span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-2 bg-light rounded-3">
+                                <small class="text-muted d-block fw-bold">RACHA</small>
+                                <span class="fs-4 fw-bold text-danger" id="modal-racha">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT PRINCIPAL -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // ESTADO GLOBAL DEL ALUMNO
+        let alumnoData = {
+            nombre: "Estudiante",
+            fotoUrl: null,
+            puntos: 0,
+            nivel: 1,
+            racha: 0,
+            medallas: 0
+        };
+
+        let historialData = [];
+
+        let currentCategory = "";
+        let currentAnswer = 0;
+        let currentPista = "";
+        let currentQuestionText = "";
+        let usoPista = false;
+        let dificultadActual = "normal";
+
+        // 1. CARGA DE IMAGEN DESDE LA GALERÍA LOCAL DE DISPOSITIVO
+        function previewFoto(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    alumnoData.fotoUrl = e.target.result;
+                    
+                    // Mostrar preview en formulario
+                    const previewImg = document.getElementById('avatar-img-preview');
+                    previewImg.src = e.target.result;
+                    previewImg.classList.remove('hidden');
+                    document.getElementById('avatar-emoji').classList.add('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // REGISTRO MANUAL CON EL FORMULARIO
+        function registrarUsuario(e) {
+            e.preventDefault();
+            const nom = document.getElementById('input-reg-nombre').value.trim();
+            if (nom !== "") {
+                alumnoData.nombre = nom;
+                iniciarApp();
+            }
+        }
+
+        // INICIAR PLATAFORMA DESPUÉS DE REGISTRARSE
+        function iniciarApp() {
+            document.getElementById('sec-auth').classList.add('hidden');
+            document.getElementById('top-bar-app').classList.remove('hidden');
+            document.getElementById('sec-main').classList.remove('hidden');
+            
+            document.getElementById('input-config-nombre').value = alumnoData.nombre;
+            renderDashboard();
+        }
+
+        function cerrarSesion() {
+            location.reload();
+        }
+
+        // TOGGLE MODO OSCURO / CLARO
+        function toggleModoOscuro() {
+            document.body.classList.toggle('modo-oscuro');
+            const icono = document.getElementById('icono-modo-oscuro');
+            const esOscuro = document.body.classList.contains('modo-oscuro');
+            icono.innerHTML = esOscuro ? '<i class="bi bi-sun-fill"></i>' : '<i class="bi bi-moon-stars-fill"></i>';
+        }
+
+        // ATRAPAR ENTER GLOBAL
+        document.addEventListener('keydown', function(event) {
+            const secJuego = document.getElementById('sec-juego');
+            if (!secJuego.classList.contains('hidden')) {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    const btnVerificar = document.getElementById('btn-verificar');
+                    const btnSiguiente = document.getElementById('btn-siguiente');
+
+                    if (!btnVerificar.classList.contains('hidden')) {
+                        checkAnswer();
+                    } else if (!btnSiguiente.classList.contains('hidden')) {
+                        nextQuestion();
+                    }
+                }
+            }
+        });
+
+        // NAVEGACIÓN SIDEBAR
+        function showTab(tabName) {
+            document.querySelectorAll('.content-view').forEach(view => view.classList.add('hidden'));
+            document.querySelectorAll('.nav-menu-btn').forEach(btn => btn.classList.remove('active'));
+
+            const targetView = document.getElementById(`view-${tabName}`) || document.getElementById('view-inicio');
+            if (targetView) targetView.classList.remove('hidden');
+
+            const activeBtn = document.getElementById(`btn-tab-${tabName}`);
+            if (activeBtn) activeBtn.classList.add('active');
+        }
+
+        // CONFIGURACIÓN DE NOMBRE
+        function guardarConfiguracion() {
+            const nuevoNombre = document.getElementById('input-config-nombre').value.trim();
+            if (nuevoNombre !== "") {
+                alumnoData.nombre = nuevoNombre;
+                renderDashboard();
+                alert("¡Perfil actualizado con éxito!");
+            }
+        }
+
+        // NAVEGAR AL JUEGO
+        function iniciarJuego(categoria) {
+            currentCategory = categoria;
+            document.getElementById('juego-titulo').innerText = categoria;
+            document.getElementById('sec-main').classList.add('hidden');
+            document.getElementById('sec-juego').classList.remove('hidden');
+            nextQuestion();
+        }
+
+        function volverAlInicio() {
+            document.getElementById('sec-juego').classList.add('hidden');
+            document.getElementById('sec-main').classList.remove('hidden');
+            renderDashboard();
+        }
+
+        // CAMBIAR NIVEL DE DIFICULTAD
+        function setDificultad(nivel) {
+            dificultadActual = nivel;
+            document.querySelectorAll('.dificultad-item').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.dificultad-item[data-nivel="${nivel}"]`).classList.add('active');
+            document.getElementById('menu-dificultad').classList.add('hidden');
+
+            const secJuego = document.getElementById('sec-juego');
+            if (!secJuego.classList.contains('hidden')) {
+                nextQuestion();
+            }
+        }
+
+        // ABRIR / CERRAR MENÚ DE DIFICULTAD
+        function toggleMenuDificultad() {
+            document.getElementById('menu-dificultad').classList.toggle('hidden');
+        }
+
+        // CERRAR EL MENÚ DE DIFICULTAD AL HACER CLIC FUERA
+        document.addEventListener('click', function(event) {
+            const wrapper = document.querySelector('.dificultad-wrapper');
+            const menu = document.getElementById('menu-dificultad');
+            if (wrapper && menu && !wrapper.contains(event.target)) {
+                menu.classList.add('hidden');
+            }
+        });
+
+        // GENERADOR DE PROBLEMAS
+        function generateProblem(categoria) {
+            let cat = categoria;
+            if (cat === 'Desafíos Mixtos') {
+                const cats = ['Operaciones Básicas', 'Números Enteros', 'Fracciones Simples', 'Problemas Matemáticos', 'Geometría Inicial'];
+                cat = cats[Math.floor(Math.random() * cats.length)];
+            }
+
+            let qText = "";
+            let ans = 0;
+            let pista = "";
+            let svg = null;
+
+            if (cat === 'Operaciones Básicas') {
+                let ops, aMin, aRange, bMin, bRange, multAMin, multARange, multBMin, multBRange, divDivisorMin, divDivisorRange, divCocienteMin, divCocienteRange;
+
+                if (dificultadActual === 'facil') {
+                    ops = ['+', '-', '*'];
+                    aMin = 5; aRange = 25; bMin = 1; bRange = 15;
+                    multAMin = 2; multARange = 8; multBMin = 2; multBRange = 8;
+                } else if (dificultadActual === 'dificil') {
+                    ops = ['+', '-', '*', '/', 'combinada'];
+                    aMin = 50; aRange = 200; bMin = 20; bRange = 120;
+                    multAMin = 12; multARange = 15; multBMin = 3; multBRange = 8;
+                    divDivisorMin = 3; divDivisorRange = 10; divCocienteMin = 4; divCocienteRange = 15;
+                } else {
+                    ops = ['+', '-', '*', '/'];
+                    aMin = 15; aRange = 60; bMin = 5; bRange = 30;
+                    multAMin = 5; multARange = 10; multBMin = 2; multBRange = 8;
+                    divDivisorMin = 2; divDivisorRange = 8; divCocienteMin = 2; divCocienteRange = 12;
+                }
+
+                const op = ops[Math.floor(Math.random() * ops.length)];
+                let a = Math.floor(Math.random() * aRange) + aMin;
+                let b = Math.floor(Math.random() * bRange) + bMin;
+                
+                if (op === '+') { ans = a + b; qText = `${a} + ${b} = ?`; pista = `Prueba sumar primero ${a} y luego ${b}.`; }
+                else if (op === '-') { 
+                    if (a < b) [a, b] = [b, a];
+                    ans = a - b; qText = `${a} - ${b} = ?`; pista = `¿Cuánto le falta a ${b} para llegar a ${a}?`; 
+                }
+                else if (op === '*') { 
+                    a = Math.floor(Math.random() * multARange) + multAMin;
+                    b = Math.floor(Math.random() * multBRange) + multBMin;
+                    ans = a * b; qText = `${a} × ${b} = ?`; pista = `Es multiplicar ${a} por ${b}.`; 
+                }
+                else if (op === '/') {
+                    const divisor = Math.floor(Math.random() * divDivisorRange) + divDivisorMin;
+                    const cociente = Math.floor(Math.random() * divCocienteRange) + divCocienteMin;
+                    const dividendo = divisor * cociente;
+                    ans = cociente; qText = `${dividendo} ÷ ${divisor} = ?`; pista = `¿Cuántas veces entra el ${divisor} en el ${dividendo}?`;
+                }
+                else if (op === 'combinada') {
+                    const x = Math.floor(Math.random() * 15) + 5;
+                    const y = Math.floor(Math.random() * 9) + 2;
+                    const z = Math.floor(Math.random() * 9) + 2;
+                    ans = x + y * z;
+                    qText = `${x} + ${y} × ${z} = ?`;
+                    pista = `Respetá la jerarquía de operaciones: primero resolvé la multiplicación (${y} × ${z}) y después sumá ${x}.`;
+                }
+            } 
+            else if (cat === 'Números Enteros') {
+                let rango, bMax, multRango;
+                let tiposDisponibles;
+
+                if (dificultadActual === 'facil') {
+                    rango = 10; bMax = 8; multRango = 5;
+                    tiposDisponibles = [0, 1];
+                } else if (dificultadActual === 'dificil') {
+                    rango = 30; bMax = 20; multRango = 10;
+                    tiposDisponibles = [0, 1, 2];
+                } else {
+                    rango = 12; bMax = 15; multRango = 4;
+                    tiposDisponibles = [0, 1, 2];
+                }
+
+                const tipo = tiposDisponibles[Math.floor(Math.random() * tiposDisponibles.length)];
+
+                if (tipo === 0) {
+                    let a = Math.floor(Math.random() * (rango * 2 + 1)) - rango;
+                    let b = Math.floor(Math.random() * bMax) + 1;
+                    ans = a + b;
+                    qText = `${a} + ${b} = ?`;
+                    pista = `Si estás en ${a} y avanzas ${b} pasos a la derecha en la recta numérica...`;
+                } else if (tipo === 1) {
+                    let a = Math.floor(Math.random() * (rango * 2 + 1)) - rango;
+                    let b = Math.floor(Math.random() * bMax) + 1;
+                    ans = a - b;
+                    qText = `${a} - ${b} = ?`;
+                    pista = `Si estás en ${a} y te mueves ${b} pasos a la izquierda...`;
+                } else {
+                    let a = Math.floor(Math.random() * (multRango * 2 + 1)) - multRango;
+                    let b = Math.floor(Math.random() * (multRango * 2 + 1)) - multRango;
+                    if (a === 0) a = 3;
+                    if (b === 0) b = -2;
+                    ans = a * b;
+                    qText = `${a} × ${b} = ?`;
+                    pista = `Recordá la regla de los signos: si son iguales el resultado es positivo, si son distintos es negativo.`;
+                }
+            } 
+            else if (cat === 'Fracciones Simples') {
+                let denoms, multMin, multRange, soloNumeradorUno;
+
+                if (dificultadActual === 'facil') {
+                    denoms = [2, 3, 4, 5];
+                    multMin = 2; multRange = 5;
+                    soloNumeradorUno = true;
+                } else if (dificultadActual === 'dificil') {
+                    denoms = [3, 4, 5, 6, 8, 10, 12];
+                    multMin = 3; multRange = 7;
+                    soloNumeradorUno = false;
+                } else {
+                    denoms = [3, 4, 5, 6, 8];
+                    multMin = 2; multRange = 6;
+                    soloNumeradorUno = false;
+                }
+
+                const denom = denoms[Math.floor(Math.random() * denoms.length)];
+                let num = 1;
+                if (!soloNumeradorUno) {
+                    num = Math.floor(Math.random() * (denom - 1)) + 1;
+                    if (num === denom) num = denom - 1;
+                }
+                const mult = Math.floor(Math.random() * multRange) + multMin;
+                const total = denom * mult;
+                ans = num * mult;
+                qText = `¿Cuánto es ${num}/${denom} de ${total}?`;
+                pista = `Primero divide ${total} entre ${denom}, y después multiplica ese resultado por ${num}.`;
+            } 
+            else if (cat === 'Problemas Matemáticos') {
+                const problemasFacil = [
+                    { q: "Juan tiene 15 figuritas y regala 6 a su amigo. ¿Cuántas le quedan?", a: 9, p: "Resta las 6 figuritas que regaló." },
+                    { q: "En un árbol hay 8 pájaros y llegan 7 más. ¿Cuántos pájaros hay en total?", a: 15, p: "Suma los pájaros que llegaron a los que ya estaban." },
+                    { q: "Si compras 3 paquetes con 4 galletitas cada uno, ¿cuántas galletitas tienes?", a: 12, p: "Multiplica los 3 paquetes por las 4 galletitas." },
+                    { q: "Se reparten 20 caramelos en partes iguales entre 4 chicos. ¿Cuántos le tocan a cada uno?", a: 5, p: "Dividí 20 entre 4." }
+                ];
+
+                const problemasAvanzado = [
+                    { q: "Juan tiene 15 figuritas, compra 3 sobres con 6 figuritas cada uno y luego regala 8. ¿Cuántas figuritas tiene ahora?", a: 25, p: "Primero suma las figuritas de los sobres (3 × 6), sumalas a las 15 que tenía, y después restá las 8 que regaló." },
+                    { q: "Un colectivo sale con 12 pasajeros. En la primera parada suben 9 y bajan 5. En la segunda parada suben 4 más. ¿Cuántos pasajeros hay al final?", a: 20, p: "Andá sumando y restando pasajeros parada por parada, en orden." },
+                    { q: "Se reparten 84 caramelos en partes iguales entre 7 chicos. Después, cada chico regala 3 caramelos. ¿Cuántos le quedan a cada uno?", a: 9, p: "Primero dividí 84 entre 7, y a ese resultado restale 3." },
+                    { q: "Ana ahorra $25 por semana durante 6 semanas. Con esos ahorros compra un libro de $120. ¿Cuánto dinero le queda?", a: 30, p: "Multiplicá 25 por 6 para saber cuánto ahorró, y luego restale el precio del libro." },
+                    { q: "Un rectángulo tiene 8 cm de base y 5 cm de altura. ¿Cuál es su perímetro?", a: 26, p: "El perímetro se calcula sumando los 4 lados: 2 veces la base más 2 veces la altura." },
+                    { q: "En una librería hay 6 estantes con 14 libros cada uno. Si venden 25 libros, ¿cuántos quedan?", a: 59, p: "Multiplicá 6 por 14 para saber el total inicial, y luego restale los 25 vendidos." }
+                ];
+
+                const problemas = dificultadActual === 'facil' ? problemasFacil : problemasAvanzado;
+                const prob = problemas[Math.floor(Math.random() * problemas.length)];
+                qText = prob.q;
+                ans = prob.a;
+                pista = prob.p;
+            } 
+            else if (cat === 'Geometría Inicial') {
+                let rangoLado, rangoBase, rangoAlt, incluirTriangulos;
+
+                if (dificultadActual === 'facil') {
+                    rangoLado = [3, 6]; rangoBase = [4, 7]; rangoAlt = [2, 4];
+                    incluirTriangulos = false;
+                } else if (dificultadActual === 'dificil') {
+                    rangoLado = [6, 15]; rangoBase = [8, 16]; rangoAlt = [4, 8];
+                    incluirTriangulos = true;
+                } else {
+                    rangoLado = [4, 11]; rangoBase = [6, 13]; rangoAlt = [3, 7];
+                    incluirTriangulos = true;
+                }
+
+                const ladoCuadrado = Math.floor(Math.random() * (rangoLado[1] - rangoLado[0] + 1)) + rangoLado[0];
+                const baseRect = Math.floor(Math.random() * (rangoBase[1] - rangoBase[0] + 1)) + rangoBase[0];
+                const altRect = Math.floor(Math.random() * (rangoAlt[1] - rangoAlt[0] + 1)) + rangoAlt[0];
+                const baseTri = Math.floor(Math.random() * (rangoBase[1] - rangoBase[0] + 1)) + rangoBase[0];
+                const altTri = [4, 6, 8, 10][Math.floor(Math.random() * 4)];
+
+                const geoList = [
+                    { 
+                        q: `¿Cuál es el perímetro del cuadrado ilustrado de lado ${ladoCuadrado} cm?`, 
+                        a: ladoCuadrado * 4, 
+                        p: `Un cuadrado tiene 4 lados iguales. Suma: ${ladoCuadrado} + ${ladoCuadrado} + ${ladoCuadrado} + ${ladoCuadrado}.`,
+                        svg: `
+                            <svg width="180" height="150" viewBox="0 0 180 150">
+                                <rect x="35" y="20" width="100" height="100" fill="#ffeef0" stroke="#ff4d6d" stroke-width="4" rx="6"/>
+                                <text x="85" y="140" text-anchor="middle" font-weight="bold" fill="#2b3674" font-size="14">${ladoCuadrado} cm</text>
+                                <text x="20" y="75" text-anchor="middle" font-weight="bold" fill="#2b3674" font-size="14">${ladoCuadrado} cm</text>
+                            </svg>`
+                    },
+                    { 
+                        q: `¿Cuál es el área del rectángulo ilustrado de base ${baseRect} cm y altura ${altRect} cm?`, 
+                        a: baseRect * altRect, 
+                        p: `El área de un rectángulo es multiplicar base por altura (${baseRect} × ${altRect}).`,
+                        svg: `
+                            <svg width="220" height="140" viewBox="0 0 220 140">
+                                <rect x="35" y="25" width="140" height="70" fill="#fff8e6" stroke="#ffcc00" stroke-width="4" rx="6"/>
+                                <text x="105" y="115" text-anchor="middle" font-weight="bold" fill="#2b3674" font-size="14">${baseRect} cm</text>
+                                <text x="20" y="65" text-anchor="middle" font-weight="bold" fill="#2b3674" font-size="14">${altRect} cm</text>
+                            </svg>`
+                    }
+                ];
+
+                if (incluirTriangulos) {
+                    geoList.push({ 
+                        q: "¿Cuánto suma la totalidad de los 3 ángulos internos de este triángulo?", 
+                        a: 180, 
+                        p: "¡Regla fundamental! La suma de ángulos de cualquier triángulo siempre es 180°.",
+                        svg: `
+                            <svg width="180" height="150" viewBox="0 0 180 150">
+                                <polygon points="90,20 20,120 160,120" fill="#e6f7ff" stroke="#0099ff" stroke-width="4"/>
+                                <text x="90" y="90" text-anchor="middle" font-weight="bold" fill="#0099ff" font-size="16">?</text>
+                            </svg>`
+                    });
+                    geoList.push({
+                        q: `¿Cuál es el área del triángulo ilustrado de base ${baseTri} cm y altura ${altTri} cm?`,
+                        a: (baseTri * altTri) / 2,
+                        p: `El área de un triángulo es (base × altura) ÷ 2, es decir (${baseTri} × ${altTri}) ÷ 2.`,
+                        svg: `
+                            <svg width="200" height="150" viewBox="0 0 200 150">
+                                <polygon points="100,20 30,120 170,120" fill="#f2e9ff" stroke="#7025ea" stroke-width="4"/>
+                                <text x="100" y="140" text-anchor="middle" font-weight="bold" fill="#2b3674" font-size="14">${baseTri} cm</text>
+                                <text x="55" y="70" text-anchor="middle" font-weight="bold" fill="#2b3674" font-size="14">${altTri} cm</text>
+                            </svg>`
+                    });
+                }
+
+                const item = geoList[Math.floor(Math.random() * geoList.length)];
+                qText = item.q;
+                ans = item.a;
+                pista = item.p;
+                svg = item.svg;
+            }
+
+            return { qText, ans, pista, svg };
+        }
+
+        // GENERAR PREGUNTA SIGUIENTE
+        function nextQuestion() {
+            usoPista = false;
+            const inputAns = document.getElementById('juego-respuesta');
+            inputAns.value = "";
+            inputAns.focus();
+
+            document.getElementById('juego-feedback').classList.add('hidden');
+            document.getElementById('juego-pista-box').classList.add('hidden');
+            document.getElementById('btn-pista').removeAttribute('disabled');
+            document.getElementById('btn-verificar').classList.remove('hidden');
+            document.getElementById('btn-siguiente').classList.add('hidden');
+
+            const prob = generateProblem(currentCategory);
+            currentQuestionText = prob.qText;
+            currentAnswer = prob.ans;
+            currentPista = prob.pista;
+
+            const figuraBox = document.getElementById('juego-figura');
+            if (prob.svg) {
+                figuraBox.innerHTML = prob.svg;
+                figuraBox.classList.remove('hidden');
+            } else {
+                figuraBox.innerHTML = "";
+                figuraBox.classList.add('hidden');
+            }
+
+            document.getElementById('juego-pregunta').innerText = currentQuestionText;
+        }
+
+        function usarPista() {
+            if (!usoPista) {
+                usoPista = true;
+                document.getElementById('juego-pista-texto').innerText = currentPista;
+                document.getElementById('juego-pista-box').classList.remove('hidden');
+                document.getElementById('btn-pista').setAttribute('disabled', 'true');
+            }
+        }
+
+        function checkAnswer() {
+            const rawVal = document.getElementById('juego-respuesta').value;
+            if (rawVal.trim() === "") return;
+
+            const userAns = parseInt(rawVal);
+            const feedback = document.getElementById('juego-feedback');
+            feedback.classList.remove('hidden');
+
+            const esCorrecto = (userAns === currentAnswer);
+
+            if (esCorrecto) {
+                let pts = usoPista ? 5 : 10;
+                alumnoData.puntos += pts;
+                alumnoData.racha += 1;
+
+                if (alumnoData.puntos >= alumnoData.nivel * 100) {
+                    alumnoData.nivel += 1;
+                    alumnoData.medallas += 1;
+                }
+
+                feedback.className = "alert alert-success text-center fw-bold mb-3";
+                feedback.innerHTML = `¡Correcto! <i class="bi bi-emoji-laughing-fill"></i> (+${pts} pts) <i class="bi bi-fire"></i> Racha: ${alumnoData.racha}`;
+            } else {
+                alumnoData.racha = 0;
+                feedback.className = "alert alert-danger text-center fw-bold mb-3";
+                feedback.innerText = `¡Casi! La respuesta correcta era ${currentAnswer}.`;
+            }
+
+            historialData.unshift({
+                tema: currentCategory,
+                pregunta: currentQuestionText,
+                respuesta: userAns,
+                correcto: esCorrecto
+            });
+            renderHistorial();
+
+            document.getElementById('btn-verificar').classList.add('hidden');
+            document.getElementById('btn-siguiente').classList.remove('hidden');
+            renderDashboard();
+        }
+
+        function renderHistorial() {
+            const tbody = document.getElementById('tabla-historial');
+            if (historialData.length === 0) return;
+
+            tbody.innerHTML = historialData.map(h => `
+                <tr>
+                    <td><span class="badge bg-secondary">${h.tema}</span></td>
+                    <td class="fw-bold">${h.pregunta}</td>
+                    <td>${h.respuesta}</td>
+                    <td>${h.correcto ? '<i class="bi bi-check-circle-fill text-success"></i> Correcto' : '<i class="bi bi-x-circle-fill text-danger"></i> Incorrecto'}</td>
+                </tr>
+            `).join('');
+        }
+
+        function renderDashboard() {
+            document.getElementById('lbl-nombre').innerText = alumnoData.nombre;
+            document.getElementById('modal-nombre').innerText = alumnoData.nombre;
+            document.getElementById('lbl-puntos').innerText = alumnoData.puntos;
+            document.getElementById('modal-puntos').innerText = alumnoData.puntos;
+            document.getElementById('lbl-nivel').innerText = `Nivel ${alumnoData.nivel}`;
+            document.getElementById('lbl-racha').innerText = alumnoData.racha;
+            document.getElementById('modal-racha').innerText = alumnoData.racha;
+            document.getElementById('top-racha').innerText = alumnoData.racha;
+            document.getElementById('lbl-medallas').innerText = alumnoData.medallas;
+            document.getElementById('top-medallas').innerText = alumnoData.medallas;
+
+            // ACTUALIZAR FOTO DE PERFIL EN TOP-BAR Y MODAL
+            if (alumnoData.fotoUrl) {
+                const topImg = document.getElementById('top-avatar-img');
+                topImg.src = alumnoData.fotoUrl;
+                topImg.classList.remove('hidden');
+                document.getElementById('top-avatar-emoji').classList.add('hidden');
+
+                const modalImg = document.getElementById('modal-avatar-img');
+                modalImg.src = alumnoData.fotoUrl;
+                modalImg.classList.remove('hidden');
+                document.getElementById('modal-avatar-emoji').classList.add('hidden');
+            }
+
+            let progreso = alumnoData.puntos % 100;
+            document.getElementById('lbl-progreso-txt').innerText = `${progreso} / 100 pts`;
+            document.getElementById('bar-progreso').style.width = `${progreso}%`;
+        }
+    </script>
+</body>
+</html>
